@@ -3,12 +3,20 @@ import { createStore } from "framework7/lite";
 // Define States
 let state = {
   messagesData: [],
+  temperature: 0.7,
+  context: 6,
 };
 
 // Define Getters
 const getters = {
   messagesData({ state }) {
     return state.messagesData;
+  },
+  temperature({ state }) {
+    return state.temperature;
+  },
+  context({ state }) {
+    return state.context;
   },
 };
 
@@ -17,13 +25,32 @@ const actions = {
   setMessagesData({ state }, newValue) {
     state.messagesData = newValue;
   },
+  setTemperature({ state }, newValue) {
+    state.temperature = newValue;
+  },
+  setContext({ state }, newValue) {
+    state.context = newValue;
+  },
 };
 
 if (typeof window !== "undefined") {
   const savedState = window.localStorage.getItem("state");
 
   if (savedState) {
-    state = JSON.parse(savedState);
+    const savedStateObject = JSON.parse(savedState);
+
+    const shapeOfCurrentState = Object.keys(state);
+    const shapeOfSavedState = Object.keys(savedStateObject);
+
+    if (
+      shapeOfSavedState.length === shapeOfSavedState.length &&
+      shapeOfCurrentState.every((key) => shapeOfSavedState.includes(key))
+    ) {
+      state = savedStateObject;
+    } else {
+      console.log(`store shape changed!`);
+      window.localStorage.removeItem("state");
+    }
   }
 }
 
