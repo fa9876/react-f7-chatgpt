@@ -172,7 +172,7 @@ export default ({ id }) => {
     f7.store.dispatch("setConversations", newConversations);
   };
 
-  const handleRecording = () => {
+  const recordHandler = () => {
     if (!isRecording) {
       // Initialize
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -254,7 +254,7 @@ export default ({ id }) => {
         placeholder={isRecognizing ? "Recognizing Audio..." : "Message"}
         onInput={(e) => setMessageText(e.target.value)}
       >
-        <Link slot="inner-start" onClick={handleRecording}>
+        <Link slot="inner-start" onClick={recordHandler}>
           {!isRecording && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
